@@ -1,0 +1,22 @@
+{
+  "name": "lottery-electron",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package-win": "electron-packager ./ --out ./out --platform=win32 --arch=x64 --version=1.8.2 --icon=./img/icon.ico",
+    "package-mac": "electron-packager ./ --out ./out --platform=darwin --arch=x64 --version=1.8.2 --icon=./img/icon.ico"
+  },
+  "devDependencies": {
+    "electron": "~1.8.2",
+    "electron-packager": "^11.1.0"
+  },
+  "dependencies": {
+    "electron": "~1.8.2",
+    "electron-packager": "^11.1.0",
+    "exceljs": "^1.1.0",
+    "iconv-lite": "^0.4.21",
+    "node-cmd": "^3.0.0"
+  }
+}

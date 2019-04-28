@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="screen-orientation" content="portrait">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" />
+    <title>湖北体彩世界杯游抽奖活动</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/wall.css">
+    <style type="text/css">
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+        }
+        
+        #tools {
+            width: 100%;
+            height: 100%;
+        }
+        
+        #result {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 50%;
+            margin-top:-308.5px;
+            text-align: center;
+            padding: 10px;
+            display: none;
+            z-index: 9;
+        }
+        
+        #result .result {
+            height: 580px;
+            width: 420px;
+            transform: translateX(-50%);
+            margin-left: 50%;
+            background: url("./img/printbg.png") no-repeat center center;
+            background-size: 100% 100%;
+            box-sizing: border-box;
+            padding-top: 105px;
+            box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+        }
+
+        
+        #result h1 {
+            color:#ff0202;
+            font-size: 22px;
+            line-height: 50px;
+            font-weight: 600;
+            font-family: "微软雅黑";
+        }
+
+        .excelhead{
+            padding:0 30px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            font-size: 14px;
+            color:#000;
+        }
+
+        .excelhead div{
+            border-right: 1px dashed #000;
+        }
+        .city{
+            width: 40px;
+            float: left;
+        }
+         .num{
+            float: left;
+            width: 100px;
+        }
+         .time{
+            float: left;
+            width: 165px;
+        }
+        .amount{
+            float: left;
+            width: 55px;
+        }
+        .excelhead .amount{
+            border:none;
+        }
+        .excelcontent{
+            padding:0 30px;
+            height: 20px;
+            line-height: 20px;
+            margin-top:1px;
+            text-align: center;
+            font-size: 14px;
+            color:#000;
+        }
+        .excelcontent li{
+            margin-top:1px;
+        }
+
+        .excelcontent div{
+            border-right: 1px dashed #000;
+        }
+        .excelcontent .amount{
+            border:none;
+        }
+
+        #result .printbtns{
+            clear:both;
+            z-index:999;
+            font-size:14px;
+            width: 160px;
+            position: absolute;
+            bottom:20%;
+            left:50%;
+            transform: translateX(-50%);
+        }
+        .printbtns a{
+            float: left;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            height: 20px;
+            width: 40px;
+            border-radius: 4px;
+            margin:0 20px;
+            line-height: 20px;
+        }
+        .printbtns .print{
+            background: url("./img/beginbg.png") no-repeat center center;
+            background-size: cover;
+        }
+        .printbtns .back{
+            background: url("./img/backbg.png") no-repeat center center;
+            background-size: cover;
+        }
+        
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+            color: inherit;
+            font: inherit;
+            margin: 0;
+            border: none;
+        }
+        
+        button {
+            overflow: visible;
+        }
+        
+        button,
+        select {
+            text-transform: none;
+        }
+        
+        button,
+        html input[type=button],
+        input[type=reset],
+        input[type=submit] {
+            -webkit-appearance: button;
+            cursor: pointer;
+        }
+        
+        .pure-button {
+            display: inline-block;
+            zoom: 1;
+            line-height: normal;
+            white-space: nowrap;
+            vertical-align: middle;
+            text-align: center;
+            cursor: pointer;
+            -webkit-user-drag: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        
+        .pure-button {
+            font-family: inherit;
+            font-size: 100%;
+            width: 70px;
+            height: 70px;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+        }
+        
+        .pure-button:focus {
+            outline: 0
+        }
+        
+        .button-success {
+            background: url('./img/stopbg.png') no-repeat center center;
+        }
+        
+        .button-error {
+            background: rgb(202, 60, 60);
+        }
+        
+        .button-warning {
+            background: url('./img/end.png') no-repeat center center;
+        }
+        
+        .button-secondary {
+            background: url('./img/start.png') no-repeat center center;
+        }
+        
+        .tools {
+            position: absolute;
+            bottom: 3.5%;
+            right: 52%;
+            margin-right: -182.5px;
+            text-align: center;
+            z-index: 2;
+        }
+        
+        .tools .pure-button {
+            display: inline-block;
+            margin: 19px;
+            text-align: center;
+        }
+        
+        .mask {
+            display: none;
+            position:absolute;
+            width: 100%;
+            height: 100%;
+            /*-webkit-filter: blur(5px);*/
+            background: rgba(0,0,0,0.5);
+            background-size: cover;
+            z-index: 3;
+        }
+        
+        #main {
+            -webkit-transition: all 1s;
+            transition: all 1s;
+            position: relative;
+        }
+        
+        #myCanvas {
+            transform: translateX(-50%) translateY(50%);
+            margin-left: 50%;
+            position: relative;
+            background: url("./img/ball.png") no-repeat center center;
+            background-size: 95% 90%;
+        }
+        
+        #main .wallmask {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+        
+        .activity {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            font-size: 40px;
+            font-weight: 700;
+            line-height: 120px;
+            color: #FFF;
+            text-align: center;
+        }
+
+        .frame{
+            position: absolute;
+            left:50%;
+            transform: translateX(-50%);
+            top:10%;
+            display: none;
+        }
+        .loading{
+            z-index: 999;
+            position: fixed;
+            top:50%;
+            left:50%;
+            transform: translateX(-50%) translateY(-50%);
+            width:198px;
+            height: 198px;
+            background: url("./img/loading.gif") no-repeat center center;
+        }
+        .beforeloading{
+            height: 100%;
+            width:100%;
+            /*background-image: url('./img/bg.jpg');*/
+            overflow: hidden;
+            background-color:#121936;
+            background-size:100% 100%;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+        .load{
+            position: fixed;
+            top:50%;
+            left:50%;
+            transform: translateX(-50%) translateY(-50%);
+            width:198px;
+            height: 198px;
+            background: url("./img/loading.gif") no-repeat center center;
+        }
+        .numList{
+            position: absolute;
+            left:0;
+            top:0;
+            width: 260px;
+            height: 115px;
+            background: url("./img/setttingcontent.png") no-repeat;
+            background-size: 100% 100%;
+            transform: translateX(-88%) translateY(-58%);
+            z-index: 999;
+        }
+        .numList .caches{
+            width: 30px;
+            height: 30px;
+            line-height: normal;
+            margin:10px 0 0 20px;
+            background: #fff;
+            color:#000;
+            text-align: center;
+        }
+        .numList .caches-warning{
+            background: rgb(231,59,65);
+            color:#fff;
+        }
+        .numList .cacheslist{
+            width: 210px;
+            height: 90px;
+        }
+        .numList .caches-success{
+            margin-left: 36px;
+            width: 60px;
+        }
+
+        .setting{
+            background: url("./img/setting.png") no-repeat center center;
+        }
+        .orderlist{
+            position: absolute;
+            width: 568px;
+            height: 400px;
+            padding-top: 200px;
+            text-align: center;
+            top:50%;
+            left:50%;
+            transform: translateX(-50%) translateY(-50%);
+            background: url("./img/lottery.png") no-repeat;
+            background-size: 100% 100%;
+            box-sizing: border-box;
+            z-index: 9;
+        }
+        .orderlist .jump{
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            top:0;
+            right:0;
+        }
+        .orderlist span{
+            display: inline-block;
+            line-height: 30px;
+            font-size:24px;
+            color:#fff;
+            width: 578px;
+        }
+        .tips{
+            position: absolute;
+            left:50%;
+            top:50%;
+            padding: 50px;
+            transform: translateX(-50%) translateY(-50%);
+            text-align: center;
+            border:1px solid #333;
+            z-index: 9;
+            box-shadow: 5px 5px 8px rgb(153, 153, 153);
+            background: #fff;
+            border-radius: 7px;
+        }
+        .errors{
+            position: absolute;
+            left:50%;
+            top:50%;
+            padding: 50px;
+            transform: translateX(-50%) translateY(-50%);
+            text-align: center;
+            border:1px solid #333;
+            z-index: 9;
+            box-shadow: 5px 5px 8px rgb(153, 153, 153);
+            background: #fff;
+            border-radius: 7px;
+        }
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="beforeloading" class="beforeloading">
+        <div class="load"></div>
+    </div>
+    <div id="tools" v-cloak>
+        <div class="mask"></div>
+        <div class="orderlist" v-if="isShowlottery">
+            <div class="jump" v-on="click:jump"></div>
+            <div class="lucky" v-html="luckyman"></div>
+        </div>
+        <div id="main" class="wall" v-bind:style="{width:screenWidth+'px'}">
+            <!--<h1 class="activity">湖北体彩世界杯游抽奖活动</h1>-->
+            <div class="wallmask">
+            </div>
+
+        </div>
+        <div id="result">
+            <div class="result">
+                <h1 style="text-align:center;">本期获奖名单</h1>
+                <div class="excelhead"><div class="city">地市</div><div class="num">终端号</div><div class="time">时间</div><div class="amount">金额</div></div>
+                <ul class="excelcontent"></ul>
+            </div>
+            <div class="printbtns">
+                <a class="print" href="javascript:;" v-on="click: print">打印</a>
+                <a class="back" href="javascript:;" v-on="click: close">退出</a>
+            </div>
+
+        </div>
+        <div class="tools">
+            <div class="numList" v-if="isShowSetNum">
+                <div class="cacheslist">
+                    <button class="caches" v-class="caches-warning:selected==$value" v-repeat="nums" v-on="click: setNum($value)">{{$value}}</button>
+                    <button class="caches caches-success" v-on="click:IsSetNum">确定</button>
+                </div>
+            </div>
+            <button class="pure-button setting" v-on="click: IsSetNum"></button>
+            <button class="pure-button" v-on="click: toggle" v-class="
+                        button-secondary: !running,
+                        button-success: running
+                    "></button>
+            <button class="pure-button button-warning" v-on="click: reset"></button>
+        </div>
+        <div class="tips" v-if="isShowtips">
+            <span>文件导出成功（保存在excelFile文件中）！</span><a href="#" v-on="click:closeTips">打开文件所在目录</a>
+        </div>
+        <div class="errors" v-if="isErrors">
+            <span>程序似乎出了一点小差，请重启游戏后再尝试</span>
+        </div>
+        <div class="loading" v-if="isLoading"></div>
+    </div>
+    <!--<iframe src="subtxt.html" frameborder="1" id="frame" class="frame"></iframe>-->
+
+    <script type="text/javascript" src="js/config.js"></script>
+    <script type="text/javascript" src="js/zepto.js"></script>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript" src="js/tagcanvas.js"></script>
+    <script type="text/javascript">
+        var data_manger = require("./js/member.js");
+        var session = config.session;
+        document.getElementsByClassName("beforeloading")[0].style.backgroundImage = "url('./img/bg_s" + session + ".png')";
+        document.getElementsByClassName("wall")[0].style.backgroundImage = "url('./img/bg_s" + session + ".png')";
+        data_manger.readData(250).then(function(data) {
+            localStorage.setItem('OEM', JSON.stringify(data));
+            (function() {
+                require('./views');
+            })();
+        }, function() {
+            console.log("error");
+        });
+    </script>
+</body>
+
+</html>
